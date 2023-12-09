@@ -3,18 +3,22 @@ import { useConnect, useConfig, useChains } from "@quirks/vue";
 import { suggestChains } from "@quirks/store";
 import { bitsong, bitsongAssetList } from "@nabla-studio/chain-registry";
 import { MsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
+import { connectQueryClient, balances } from "../services/query";
 
 const { wallets } = useConfig();
 const { accounts } = useChains();
 const { connect, disconnect, connected, status } = useConnect();
 
-useQueryClient("bitsong");
+onMounted(() => {
+  connectQueryClient("bitsong");
+});
 
-const open = async (chainName: string) => {
-  await suggestChains(chainName, [
+const open = async (walletName: string) => {
+  await suggestChains(walletName, [
     { chain: bitsong, assetList: bitsongAssetList, name: "bitsong" },
   ]);
-  await connect(chainName);
+  await connect(walletName);
+  console.log(await balances("bitsong"));
 };
 
 const send = async () => {
