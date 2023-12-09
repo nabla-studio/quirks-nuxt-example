@@ -8,6 +8,8 @@ const { wallets } = useConfig();
 const { accounts } = useChains();
 const { connect, disconnect, connected, status } = useConnect();
 
+useQueryClient("bitsong");
+
 const open = async (chainName: string) => {
   await suggestChains(chainName, [
     { chain: bitsong, assetList: bitsongAssetList, name: "bitsong" },

@@ -13,15 +13,19 @@
     "@nuxt/devtools": "latest",
     "esbuild-plugin-polyfill-node": "^0.3.0",
     "nuxt": "^3.8.1",
+    "vite-plugin-node-polyfills": "^0.17.0",
     "vue": "^3.3.8",
     "vue-router": "^4.2.5"
   },
   "dependencies": {
-    "@nabla-studio/chain-registry": "^0.2.1",
-    "@quirks/nuxt": "^0.1.0",
-    "@quirks/store": "^0.5.0",
-    "@quirks/vue": "^0.2.0",
-    "@quirks/wallets": "^0.3.3",
+    "@cosmjs/cosmwasm-stargate": "^0.32.1",
+    "@cosmjs/stargate": "^0.32.1",
+    "@nabla-studio/chain-registry": "^0.3.3",
+    "@quirks/core": "^0.8.3",
+    "@quirks/nuxt": "^0.1.15",
+    "@quirks/store": "^0.9.3",
+    "@quirks/vue": "^0.4.2",
+    "@quirks/wallets": "^0.7.3",
     "cosmjs-types": "^0.9.0",
     "stargazejs": "^0.14.1"
   }
