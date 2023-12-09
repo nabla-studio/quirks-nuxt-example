@@ -1,5 +1,5 @@
 import { assertIsDefined, getEndpoint } from "@quirks/core";
-import { CosmWasmClient } from "@cosmjs/cosmwasm-stargate";
+import type { CosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 
 export const useQueryClient = (chainName: string) => {
   const chains = useQuirks()((state) => state.chains);
