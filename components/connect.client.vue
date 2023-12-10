@@ -6,13 +6,7 @@ import { useQuery } from "@tanstack/vue-query";
 
 const { wallets } = useConfig();
 const { connect, disconnect, connected, status } = useConnect();
-const { accounts } = useChains();
-
-const address = computed(() => {
-  console.log(accounts.value);
-  return accounts.value.find((account) => account.chainId === "bitsong-2b")
-    ?.bech32Address;
-});
+const { address } = useChain("bitsong");
 
 const queryKey = computed(() => ["balance", address.value]);
 const enabled = computed(
