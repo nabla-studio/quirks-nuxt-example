@@ -2,13 +2,36 @@
 import { useConnect, useConfig } from "@quirks/vue";
 import { suggestChains } from "@quirks/store";
 import { bitsong, bitsongAssetList } from "@nabla-studio/chain-registry";
-import { connectQueryClient, balances } from "../services/query";
+import { useQuery } from "@tanstack/vue-query";
 
 const { wallets } = useConfig();
 const { connect, disconnect, connected, status } = useConnect();
+const { accounts } = useChains();
 
-onMounted(() => {
-  connectQueryClient("bitsong");
+const address = computed(() => {
+  console.log(accounts.value);
+  return accounts.value.find((account) => account.chainId === "bitsong-2b")
+    ?.bech32Address;
+});
+
+const queryKey = computed(() => ["balance", address.value]);
+const enabled = computed(
+  () => address.value !== undefined && cwQueryClient.value !== undefined
+);
+
+useCWQueryClient("bitsong");
+
+const { data } = useQuery({
+  queryKey,
+  queryFn: () => {
+    console.log("QUERY:", address.value);
+    if (address.value) {
+      return balances("bitsong", address.value);
+    }
+
+    return null;
+  },
+  enabled,
 });
 
 const open = async (walletName: string) => {
@@ -16,7 +39,6 @@ const open = async (walletName: string) => {
     { chain: bitsong, assetList: bitsongAssetList, name: "bitsong" },
   ]);
   await connect(walletName);
-  console.log(await balances("bitsong"));
 };
 </script>
 
@@ -55,4 +77,6 @@ const open = async (walletName: string) => {
       </a>
     </div>
   </div>
+
+  <div>Balances: {{ JSON.stringify(data) }}</div>
 </template>

@@ -26,6 +26,7 @@
     "@quirks/store": "^0.9.3",
     "@quirks/vue": "^0.4.2",
     "@quirks/wallets": "^0.7.3",
+    "@tanstack/vue-query": "^5.13.4",
     "cosmjs-types": "^0.9.0",
     "stargazejs": "^0.14.1"
   }

@@ -1,14 +1,15 @@
 import { assertIsDefined, getEndpoint } from "@quirks/core";
 import type { CosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 
-export const useQueryClient = (chainName: string) => {
+export const cwQueryClient = ref<CosmWasmClient>();
+
+export const useCWQueryClient = (chainName: string) => {
   const chains = useQuirks()((state) => state.chains);
-  const queryClient = ref<CosmWasmClient>();
 
   watch(
     chains,
     async () => {
-      if (chains.value && !queryClient.value) {
+      if (chains.value && !cwQueryClient.value) {
         const chain = getChain(chainName);
         assertIsDefined(chain);
 
@@ -17,15 +18,17 @@ export const useQueryClient = (chainName: string) => {
         const CosmWasmClient = (await import("@cosmjs/cosmwasm-stargate"))
           .CosmWasmClient;
 
-        queryClient.value = await CosmWasmClient.connect(endpoint.rpc.address);
+        cwQueryClient.value = await CosmWasmClient.connect(
+          endpoint.rpc.address
+        );
       }
     },
     {
       immediate: true,
     }
   );
+};
 
-  return {
-    queryClient,
-  };
+export const balances = (chainName: string, address: string) => {
+  return cwQueryClient.value?.getBalance(address, "ubtsg");
 };
