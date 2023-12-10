@@ -1,10 +1,10 @@
-import { nodePolyfills } from "vite-plugin-node-polyfills";
+import { polyfillNode } from "esbuild-plugin-polyfill-node";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@quirks/nuxt"],
   vite: {
-    plugins: [nodePolyfills()],
+    plugins: [polyfillNode()],
   },
 });
