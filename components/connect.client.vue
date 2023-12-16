@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useConnect, useConfig } from "@quirks/vue";
+import { useConnect, useConfig, useWalletEvents } from "@quirks/vue";
 import { suggestChains } from "@quirks/store";
 import { bitsong, bitsongAssetList } from "@nabla-studio/chain-registry";
 import { useQuery } from "@tanstack/vue-query";
@@ -14,6 +14,10 @@ const enabled = computed(
 );
 
 useCWQueryClient("bitsong");
+
+useWalletEvents("keystorechange", () => {
+  console.log("Keystore Changed");
+});
 
 const { data } = useQuery({
   queryKey,
