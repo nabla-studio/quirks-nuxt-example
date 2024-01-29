@@ -45,17 +45,17 @@ const open = async (walletName: string) => {
   {{ wallets.length }}
   <button @click="disconnect" v-if="connected">DISCONNECT</button>
   <div v-else>
-    <div v-for="wallet in wallets" :key="wallet.options.name">
+    <div v-for="wallet in wallets" :key="wallet.options.wallet_name">
       <button
         @click="
           {
-            open(wallet.options.name);
+            open(wallet.options.wallet_name);
           }
         "
       >
         <img
-          :src="wallet.options.logoUrls?.light?.svg"
-          :alt="wallet.options.prettyName"
+          :src="wallet.logoLight"
+          :alt="wallet.options.pretty_name"
           height="48px"
           width="48px"
           :style="{ width: '48px', height: '48px' }"
@@ -64,8 +64,8 @@ const open = async (walletName: string) => {
 
       <a
         :href="
-          wallet.options.downloads && wallet.options.downloads.length > 0
-            ? wallet.options.downloads[0].link
+          wallet.options.platforms && wallet.options.platforms.length > 0
+            ? wallet.options.platforms[0].install_link
             : '#'
         "
         target="_blank"
