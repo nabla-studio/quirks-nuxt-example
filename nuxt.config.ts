@@ -7,4 +7,9 @@ export default defineNuxtConfig({
   vite: {
     plugins: [polyfillNode()],
   },
+  runtimeConfig: {
+    public: {
+      projectId: undefined,
+    },
+  },
 });

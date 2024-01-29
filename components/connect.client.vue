@@ -1,11 +1,18 @@
 <script setup lang="ts">
-import { useConnect, useConfig, useWalletEvents } from "@quirks/vue";
+import {
+  useConnect,
+  useConfig,
+  useWalletConnect,
+  useWalletEvents,
+} from "@quirks/vue";
 import { suggestChains } from "@quirks/store";
 import { bitsong, bitsongAssetList } from "@nabla-studio/chain-registry";
 import { useQuery } from "@tanstack/vue-query";
+import VueQrcode from "vue-qrcode";
 
 const { wallets } = useConfig();
 const { connect, disconnect, connected, status } = useConnect();
+const { pairingURI } = useWalletConnect();
 const { address } = useChain("bitsong");
 
 const queryKey = computed(() => ["balance", address.value]);
@@ -14,10 +21,6 @@ const enabled = computed(
 );
 
 useCWQueryClient("bitsong");
-
-useWalletEvents("keystorechange", () => {
-  console.log("Keystore Changed");
-});
 
 const { data } = useQuery({
   queryKey,
@@ -41,18 +44,17 @@ const open = async (walletName: string) => {
 </script>
 
 <template>
-  Hello world {{ status }} {{ connected }}
-  {{ wallets.length }}
+  Wallet Status: {{ status }} {{ pairingURI }}
   <button @click="disconnect" v-if="connected">DISCONNECT</button>
   <div v-else>
+    <VueQrcode
+      v-if="pairingURI"
+      :value="pairingURI"
+      type="image/png"
+      :color="{ dark: '#000000ff', light: '#ffffffff' }"
+    />
     <div v-for="wallet in wallets" :key="wallet.options.wallet_name">
-      <button
-        @click="
-          {
-            open(wallet.options.wallet_name);
-          }
-        "
-      >
+      <button @click="open(wallet.options.wallet_name)">
         <img
           :src="wallet.logoLight"
           :alt="wallet.options.pretty_name"
@@ -60,6 +62,7 @@ const open = async (walletName: string) => {
           width="48px"
           :style="{ width: '48px', height: '48px' }"
         />
+        {{ wallet.options.connectionType === "wallet_connect" ? "Mobile" : "" }}
       </button>
 
       <a

@@ -28,6 +28,7 @@
     "@quirks/wallets": "latest",
     "@tanstack/vue-query": "^5.13.4",
     "cosmjs-types": "^0.9.0",
-    "stargazejs": "^0.14.1"
+    "stargazejs": "^0.14.1",
+    "vue-qrcode": "^2.2.2"
   }
 }
